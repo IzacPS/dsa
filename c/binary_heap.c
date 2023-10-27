@@ -25,11 +25,20 @@ void binary_heap_init(BinaryHeap *h, enum BinaryHeapType type){
     h->type = type;
 }
 
+void binary_heap_print(BinaryHeap *h){
+    for(int i = 1, k = 0; k < h->size; i*=2){
+        for(int j = 0; j < i && k < h->size; j++, k++){
+            printf("%d\t", h->data[k]);
+        } 
+        printf("\n");
+    }
+}
+
 
 void binary_heap_siftup(BinaryHeap *h, int node_pos){
-    int parent = (node_pos - 1) / 2;
+    int parent = (node_pos == 0) ? -1 : (node_pos - 1) / 2;
     if(h->type == MIN_HEAP){
-        while(parent > 0 && h->data[parent] > h->data[node_pos]){
+        while(parent >= 0 && h->data[parent] > h->data[node_pos]){
             int aux = h->data[parent];
             h->data[parent] = h->data[node_pos];
             h->data[node_pos] = aux;
@@ -38,7 +47,7 @@ void binary_heap_siftup(BinaryHeap *h, int node_pos){
             parent = (node_pos - 1) / 2;
         } 
     }else{
-        while(parent > 0 && h->data[parent] < h->data[node_pos]){
+        while(parent >= 0 && h->data[parent] < h->data[node_pos]){
             int aux = h->data[parent];
             h->data[parent] = h->data[node_pos];
             h->data[node_pos] = aux;
@@ -93,7 +102,7 @@ void binary_heap_heapfy(BinaryHeap *h){
 
 void binary_heap_insert(BinaryHeap *h, int value){
     h->data[h->size] = value; 
-    binary_heap_siftup(h, h->size);
+    binary_heap_siftup(h, h->size++);
 }
 
 void binary_heap_remove(BinaryHeap *h, int index){}
@@ -128,6 +137,74 @@ void binary_heap_update(BinaryHeap *h, int pos, int value){
 
 int main(int argc, char *argv[])
 {
+    BinaryHeap h; 
+    binary_heap_init(&h,MIN_HEAP);
+
+    binary_heap_insert(&h, 3);
+    binary_heap_insert(&h, 9);
+    binary_heap_insert(&h, 2);
+    binary_heap_insert(&h, 1);
+    binary_heap_insert(&h, 4);
+    binary_heap_insert(&h, 5);
+
+    binary_heap_print(&h);
+    printf("\n");
+
+    printf("min: %d\n", binary_heap_get(&h));
+    printf("\n");
+
+    binary_heap_insert(&h, -1);
+
+    binary_heap_print(&h);
+    printf("\n");
+
+    binary_heap_update(&h, 4, -2);
+
+    binary_heap_print(&h);
+    printf("\n");
+
+
+    BinaryHeap hm;
+    binary_heap_init(&hm,MIN_HEAP);
+
+    binary_heap_insert(&hm, 3);
+    binary_heap_insert(&hm, 9);
+    binary_heap_insert(&hm, 2);
+    binary_heap_insert(&hm, 1);
+    binary_heap_insert(&hm, 4);
+    binary_heap_insert(&hm, 5);
+
+    binary_heap_print(&hm);
+    printf("\n");
+
+    printf("min: %d\n", binary_heap_get(&hm));
+    printf("\n");
+
+    binary_heap_insert(&hm, -1);
+
+    binary_heap_print(&hm);
+    printf("\n");
+
+    binary_heap_update(&hm, 4, -2);
+
+    binary_heap_print(&hm);
+    printf("\n");
+
+    BinaryHeap hh;
+    binary_heap_init(&hh,MAX_HEAP);
+    binary_heap_insert(&hh, 4);
+    binary_heap_insert(&hh, 1);
+    binary_heap_insert(&hh, 3);
+    binary_heap_insert(&hh, 2);
+    binary_heap_insert(&hh, 16);
+    binary_heap_insert(&hh, 9);
+    binary_heap_insert(&hh, 10);
+    binary_heap_insert(&hh, 14);
+    binary_heap_insert(&hh, 8);
+    binary_heap_insert(&hh, 7);
+
+    binary_heap_print(&hh);
+    printf("\n");
 
     return 0;
 }
